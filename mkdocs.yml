@@ -1,0 +1,9 @@
+site_name: SnapEDA
+site_description: Simple, fast, memory-efficient Auto EDA built on Polars
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - Examples: examples.md
+  - Tutorial (Jupytext): tutorial.md
+theme:
+  name: mkdocs
