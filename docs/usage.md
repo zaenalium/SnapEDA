@@ -24,6 +24,7 @@ polar_result = se.summarize_frame(df_polars)
 
 # In-memory pandas DataFrame
 # df_pandas = pd.DataFrame(...)
+# pip install snapeda[pandas]  # required for pandas inputs
 pandas_result = se.summarize_frame(df_pandas, sample=SamplingConfig(mode="head", size=100))
 ```
 
