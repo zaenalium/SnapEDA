@@ -1,17 +1,26 @@
-from pathlib import Path
-import sys
+import unittest
 
 import polars as pl
-import pytest
 
-sys.path.append(str(Path(__file__).resolve().parents[1]))
-
+from snapeda.cli import _build_parser
 from snapeda.sampling import SamplingConfig, apply_sampling
 
 
-def test_stratified_sampling_missing_column_raises_value_error():
-    lf = pl.DataFrame({"value": [1, 2, 3]}).lazy()
-    config = SamplingConfig(mode="stratified", stratify_by="group")
+class SamplingValidationTests(unittest.TestCase):
+    def test_stratified_sampling_requires_column(self) -> None:
+        lf = pl.LazyFrame({"group": ["a", "b", "c"]})
+        config = SamplingConfig(mode="stratified", size=2, stratify_by=None)
 
-    with pytest.raises(ValueError, match="Column 'group' is required for stratified sampling"):
-        apply_sampling(lf, config)
+        with self.assertRaises(ValueError):
+            apply_sampling(lf, config)
+
+    def test_cli_config_requires_stratify_by(self) -> None:
+        parser = _build_parser()
+        args = parser.parse_args(["data.csv", "--sample-mode", "stratified"])
+
+        with self.assertRaises(ValueError):
+            SamplingConfig.from_cli(args)
+
+
+if __name__ == "__main__":
+    unittest.main()

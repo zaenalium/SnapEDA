@@ -25,6 +25,7 @@ result = se.summarize(
 # In-memory Polars or pandas DataFrame
 # df_polars = pl.DataFrame(...)
 # df_pandas = pd.DataFrame(...)
+# pip install snapeda[pandas]  # needed for pandas inputs
 result_from_df = se.summarize_frame(df_polars)
 ```
 
@@ -37,7 +38,7 @@ python -m snapeda data/ --pattern "*.parquet" --sample-mode random --sample-size
 - `head`: take the first N rows
 - `tail`: take the last N rows
 - `random`: uniform sampling across the dataset
-- `stratified`: stratified sampling by a column (`--stratify-by`)
+- `stratified`: stratified sampling by a column (`--stratify-by`, required when this mode is used)
 - `none`: operate on the full dataset (may be slower)
 
 ## Documentation

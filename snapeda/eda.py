@@ -45,7 +45,14 @@ def _lazy_from_frame(frame: pl.DataFrame | "pd.DataFrame") -> pl.LazyFrame:
 
     # Lightweight pandas detection without importing the module eagerly.
     if frame.__class__.__name__ == "DataFrame" and frame.__class__.__module__.startswith("pandas"):
-        return pl.from_pandas(frame).lazy()
+        try:
+            import pandas as pd  # noqa: F401
+            return pl.from_pandas(frame).lazy()
+        except ModuleNotFoundError as exc:  # pragma: no cover - exercised via tests
+            raise ImportError(
+                "pandas is required to use pandas DataFrame inputs. "
+                "Install with `pip install snapeda[pandas]`."
+            ) from exc
 
     raise TypeError("frame must be a Polars or pandas DataFrame")
 
