@@ -15,11 +15,15 @@ def _build_parser() -> argparse.ArgumentParser:
         "--sample-mode",
         default="random",
         choices=["none", "head", "tail", "random", "stratified"],
-        help="Sampling strategy",
+        help="Sampling strategy (stratified requires --stratify-by)",
     )
     parser.add_argument("--sample-size", type=int, default=5000, help="Number of rows to sample")
     parser.add_argument("--sample-fraction", type=float, default=None, help="Fractional sample instead of size")
-    parser.add_argument("--stratify-by", default=None, help="Column to stratify sampling on")
+    parser.add_argument(
+        "--stratify-by",
+        default=None,
+        help="Column to stratify sampling on (required with --sample-mode stratified)",
+    )
     parser.add_argument("--seed", type=int, default=0, help="Random seed for sampling")
     parser.add_argument("--columns-limit", type=int, default=25, help="Maximum columns to summarize")
     return parser

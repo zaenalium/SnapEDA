@@ -47,7 +47,7 @@ Flags:
 - `--pattern`: glob used when `source` is a directory.
 - `--sample-mode`: `none`, `head`, `tail`, `random`, or `stratified`.
 - `--sample-size` / `--sample-fraction`: specify absolute or fractional sampling.
-- `--stratify-by`: column for stratified sampling.
+- `--stratify-by`: column for stratified sampling (required with `--sample-mode=stratified`).
 - `--seed`: random seed for reproducible sampling.
 - `--columns-limit`: maximum columns to summarize.
 
