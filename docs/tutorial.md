@@ -48,7 +48,7 @@ customers = pl.DataFrame(
 
 ```python
 summary = summarize_frame(customers, sample={"mode": "random", "size": 3})
-print(summary.to_text())
+print(summary.render_text())
 ```
 
 The sampler respects existing options like head/tail, random, or stratified sampling
@@ -58,12 +58,12 @@ without loading the full dataset into memory when used with lazy frames.
 
 ```python
 # Access any section of the summary object
-print(summary.overview)
+print(summary.dataset)
 print(summary.numeric)
 
 # Export text to a report file
 with open("report.txt", "w") as fp:
-    fp.write(summary.to_text())
+    fp.write(summary.render_text())
 ```
 
 ## 4. Working with multiple files in a folder
@@ -75,7 +75,7 @@ files. SnapEDA will lazily scan and concatenate compatible schemas.
 from snapeda import summarize
 
 folder_report = summarize("./data/", sample={"mode": "head", "size": 100})
-print(folder_report.to_text())
+print(folder_report.render_text())
 ```
 
 ## 5. Sync the notebook pairing (optional)

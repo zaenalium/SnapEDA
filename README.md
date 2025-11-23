@@ -18,19 +18,15 @@ from snapeda import SamplingConfig
 
 result = se.summarize(
     "data/",  # file or directory
-    sample={"mode": "random", "size": 5000, "seed": 0},
+    sample=SamplingConfig(mode="random", size=5000, seed=0),
     pattern="*.parquet",  # optional when pointing at a folder
 )
-print(result.to_text())
 
 # In-memory Polars or pandas DataFrame
 # df_polars = pl.DataFrame(...)
 # df_pandas = pd.DataFrame(...)
 result_from_df = se.summarize_frame(df_polars)
 ```
-
-`sample` accepts either a `SamplingConfig` or a lightweight dict, and the resulting
-object can be rendered as text using `result.to_text()` or `snapeda.render.render_text`.
 
 ### CLI
 ```
@@ -57,14 +53,4 @@ mkdocs serve
 
 ```bash
 jupytext --set-formats md,ipynb docs/tutorial.md
-```
-
-## Testing
-
-Install the development extras and run the pytest suite, which exercises directory ingestion,
-sampling, and text rendering end-to-end:
-
-```bash
-pip install -e ".[dev]"
-pytest
 ```

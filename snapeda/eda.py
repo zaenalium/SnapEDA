@@ -6,7 +6,7 @@ from typing import Mapping, TYPE_CHECKING
 import polars as pl
 
 from .io import LoadReport, load_lazy_frame
-from .sampling import SamplingConfig, apply_sampling, normalize_sampling
+from .sampling import SamplingConfig, apply_sampling
 from .summary import (
     DatasetOverview,
     summarize_categorical,
@@ -31,20 +31,6 @@ class SummarizeResult:
     sample_preview: pl.DataFrame
     load_report: LoadReport
 
-    def to_text(self) -> str:
-        """Render the summary as a text table string using Rich."""
-
-        from io import StringIO
-
-        from rich.console import Console
-
-        from .render import render_text
-
-        buffer = StringIO()
-        console = Console(file=buffer, force_terminal=True, record=True)
-        render_text(self, console=console)
-        return console.export_text()
-
 
 if TYPE_CHECKING:  # pragma: no cover
     import pandas as pd
@@ -66,12 +52,12 @@ def _lazy_from_frame(frame: pl.DataFrame | "pd.DataFrame") -> pl.LazyFrame:
 
 def summarize(
     source: str,
-    sample: SamplingConfig | Mapping[str, object] | None = None,
+    sample: SamplingConfig | None = None,
     *,
     pattern: str = "*",
     columns_limit: int = 25,
 ) -> SummarizeResult:
-    sample_cfg = normalize_sampling(sample) if sample is not None else DEFAULT_SAMPLE
+    sample_cfg = sample or DEFAULT_SAMPLE
     lf, load_report = load_lazy_frame(source, pattern=pattern)
 
     sampled_lf = apply_sampling(lf, sample_cfg)
@@ -94,11 +80,11 @@ def summarize(
 
 def summarize_frame(
     frame: pl.DataFrame | "pd.DataFrame",
-    sample: SamplingConfig | Mapping[str, object] | None = None,
+    sample: SamplingConfig | None = None,
     *,
     columns_limit: int = 25,
 ) -> SummarizeResult:
-    sample_cfg = normalize_sampling(sample) if sample is not None else DEFAULT_SAMPLE
+    sample_cfg = sample or DEFAULT_SAMPLE
 
     lf = _lazy_from_frame(frame)
     sampled_lf = apply_sampling(lf, sample_cfg)

@@ -28,7 +28,7 @@ NUMERIC_LIMIT = 50
 
 def summarize_dataset(lf: pl.LazyFrame, sample_df: pl.DataFrame) -> DatasetOverview:
     row_count = int(lf.select(pl.len()).collect().item())
-    schema = {k: str(v) for k, v in lf.collect_schema().items()}
+    schema = {k: str(v) for k, v in lf.schema.items()}
     return DatasetOverview(
         row_count=row_count,
         column_count=len(schema),
@@ -41,7 +41,7 @@ def summarize_dataset(lf: pl.LazyFrame, sample_df: pl.DataFrame) -> DatasetOverv
 def _numeric_columns(df: pl.DataFrame) -> list[str]:
     numeric_cols: list[str] = []
     for name, dtype in df.schema.items():
-        if dtype.is_numeric():
+        if pl.datatypes.is_numeric(dtype):
             numeric_cols.append(name)
     return numeric_cols
 

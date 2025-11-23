@@ -10,11 +10,6 @@ dependencies = [
   "rich>=13"
 ]
 
-[project.optional-dependencies]
-dev = [
-  "pytest>=7"
-]
-
 [project.scripts]
 snapeda = "snapeda.cli:main"
 

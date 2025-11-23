@@ -34,5 +34,4 @@ SnapEDA returns a `SummarizeResult` dataclass containing:
 - **sample_preview**: first 10 rows from the sampled frame
 - **load_report**: which files were included or skipped during ingestion
 
-Use `snapeda.render.render_text` to print the result as formatted tables in your terminal,
-or call `result.to_text()` to capture the same output as a string.
+Use `snapeda.render.render_text` to print the result as formatted tables in your terminal.

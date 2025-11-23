@@ -12,13 +12,11 @@ from snapeda.render import render_text
 # File or directory path (glob pattern applies when pointing at a folder)
 result = se.summarize(
     "data/",  # file, directory, or glob root
-    sample={"mode": "random", "size": 5000, "seed": 0},
+    sample=SamplingConfig(mode="random", size=5000, seed=0),
     pattern="*.parquet",
     columns_limit=25,
 )
 render_text(result)
-# Or capture text directly
-print(result.to_text())
 
 # In-memory Polars DataFrame
 # df_polars = pl.DataFrame(...)
@@ -32,7 +30,7 @@ pandas_result = se.summarize_frame(df_pandas, sample=SamplingConfig(mode="head",
 Key options:
 - `pattern`: Glob pattern for directory discovery (defaults to `*`).
 - `columns_limit`: Truncate numeric/categorical summaries to the first N columns.
-- `sample`: `SamplingConfig` or a dict controlling mode, size/fraction, stratification, and seed.
+- `sample`: `SamplingConfig` controlling mode, size/fraction, stratification, and seed.
 
 ## CLI
 The CLI mirrors the Python API. All sampling modes are available, and directory loading

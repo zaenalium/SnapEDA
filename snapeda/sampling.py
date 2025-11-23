@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Literal, Mapping, Optional
+from typing import Literal, Optional
 
 import polars as pl
 
@@ -26,23 +26,6 @@ class SamplingConfig:
             stratify_by=args.stratify_by,
             seed=args.seed,
         )
-
-
-def normalize_sampling(sample: SamplingConfig | Mapping[str, object] | None) -> SamplingConfig:
-    if sample is None:
-        return SamplingConfig()
-
-    if isinstance(sample, SamplingConfig):
-        return sample
-
-    # Allow lightweight dict-style configuration for ergonomics in notebooks.
-    return SamplingConfig(
-        mode=sample.get("mode", "random"),  # type: ignore[arg-type]
-        size=int(sample.get("size", 5000)) if sample.get("size") is not None else 5000,  # type: ignore[arg-type]
-        fraction=sample.get("fraction"),  # type: ignore[arg-type]
-        stratify_by=sample.get("stratify_by"),  # type: ignore[arg-type]
-        seed=sample.get("seed", 0),  # type: ignore[arg-type]
-    )
 
 
 def apply_sampling(lf: pl.LazyFrame, config: SamplingConfig) -> pl.LazyFrame:
