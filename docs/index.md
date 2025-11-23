@@ -18,6 +18,12 @@ Install SnapEDA from a local checkout:
 pip install -e .
 ```
 
+For working with pandas DataFrame inputs, install the optional extra:
+
+```bash
+pip install -e .[pandas]
+```
+
 To build the docs locally, install MkDocs (no theme extras required):
 
 ```bash
