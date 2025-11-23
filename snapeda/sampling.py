@@ -20,6 +20,9 @@ class SamplingConfig:
 
     @classmethod
     def from_cli(cls, args: "argparse.Namespace") -> "SamplingConfig":  # type: ignore[name-defined]
+        if args.sample_mode == "stratified" and not args.stratify_by:
+            raise ValueError("Stratified sampling requires --stratify-by to be set.")
+
         return cls(
             mode=args.sample_mode,
             size=args.sample_size,
@@ -55,6 +58,9 @@ def apply_sampling(lf: pl.LazyFrame, config: SamplingConfig) -> pl.LazyFrame:
         return lf.tail(config.size)
 
     if config.mode in {"random", "stratified"}:
+        if config.mode == "stratified" and not config.stratify_by:
+            raise ValueError("Stratified sampling requires a 'stratify_by' column to be set.")
+
         sample_kwargs: dict[str, object] = {
             "with_replacement": False,
             "shuffle": True,

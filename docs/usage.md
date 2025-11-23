@@ -24,6 +24,7 @@ polar_result = se.summarize_frame(df_polars)
 
 # In-memory pandas DataFrame
 # df_pandas = pd.DataFrame(...)
+# pip install snapeda[pandas]  # required for pandas inputs
 pandas_result = se.summarize_frame(df_pandas, sample=SamplingConfig(mode="head", size=100))
 ```
 
@@ -47,7 +48,7 @@ Flags:
 - `--pattern`: glob used when `source` is a directory.
 - `--sample-mode`: `none`, `head`, `tail`, `random`, or `stratified`.
 - `--sample-size` / `--sample-fraction`: specify absolute or fractional sampling.
-- `--stratify-by`: column for stratified sampling.
+- `--stratify-by`: column for stratified sampling (required with `--sample-mode=stratified`).
 - `--seed`: random seed for reproducible sampling.
 - `--columns-limit`: maximum columns to summarize.
 

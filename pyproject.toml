@@ -10,6 +10,9 @@ dependencies = [
   "rich>=13"
 ]
 
+[project.optional-dependencies]
+pandas = ["pandas>=2.0"]
+
 [project.scripts]
 snapeda = "snapeda.cli:main"
 
