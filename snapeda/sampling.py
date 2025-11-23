@@ -7,6 +7,7 @@ import polars as pl
 
 
 SamplingMode = Literal["none", "head", "tail", "random", "stratified"]
+_ALLOWED_MODES = {"none", "head", "tail", "random", "stratified"}
 
 
 @dataclass(slots=True)
@@ -31,7 +32,24 @@ class SamplingConfig:
         )
 
 
+def normalize_sampling(config: SamplingConfig) -> SamplingConfig:
+    if config.mode not in _ALLOWED_MODES:
+        raise ValueError(
+            f"Unknown sampling mode {config.mode!r}. Allowed modes: {sorted(_ALLOWED_MODES)}"
+        )
+
+    if config.size <= 0:
+        raise ValueError("sample size must be a positive integer")
+
+    if config.fraction is not None and (config.fraction <= 0 or config.fraction > 1):
+        raise ValueError("sample fraction must be within (0, 1]")
+
+    return config
+
+
 def apply_sampling(lf: pl.LazyFrame, config: SamplingConfig) -> pl.LazyFrame:
+    config = normalize_sampling(config)
+
     if config.mode == "none":
         return lf
     if config.mode == "head":
