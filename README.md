@@ -37,7 +37,7 @@ python -m snapeda data/ --pattern "*.parquet" --sample-mode random --sample-size
 - `head`: take the first N rows
 - `tail`: take the last N rows
 - `random`: uniform sampling across the dataset
-- `stratified`: stratified sampling by a column (`--stratify-by`)
+- `stratified`: stratified sampling by a column (`--stratify-by`, required when this mode is used)
 - `none`: operate on the full dataset (may be slower)
 
 ## Documentation
